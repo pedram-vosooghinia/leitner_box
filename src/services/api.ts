@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 const API_BASE_URL =
   process.env.NODE_ENV === "production"
-    ? "https://leitner-box-five-xi.vercel.app/api/"
+    ? "https://leitner-box.vercel.app/api/"
     : "http://localhost:3000/api/";
 
 export const api = axios.create({
