@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { query } from "@/db";
 
-
 interface RequestBody {
   cardId: number;
   isCorrect: boolean;
@@ -14,9 +13,13 @@ export async function POST(req: NextRequest) {
     const { cardId, isCorrect, box_id, totalBoxes } = body.data;
 
     const newBoxId = isCorrect ? Math.min(box_id + 1, totalBoxes) : 1;
-console.log("newBoxId",newBoxId)
-console.log("isCorrect",isCorrect)
-    const sqlQuery = "UPDATE cards SET box_id = $1 WHERE id = $2";
+    const sqlQuery = `
+    UPDATE cards 
+    SET box_id = $1, 
+    review_date = CURRENT_DATE ,
+    part_number= 1
+    WHERE id = $2
+`;
     const values = [newBoxId, cardId];
     await query(sqlQuery, values);
 

@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
     try {
       const { searchParams } = new URL(req.url);
       const box_id = searchParams.get("box_id");
-  
+  console.log("box_id",box_id)
       if (!box_id) {
         return NextResponse.json(
           { success: false, message: "Box ID is required." },
@@ -14,23 +14,27 @@ export async function GET(req: NextRequest) {
         );
       }
   
+  
       const cardsQuery = `
-        SELECT 
-          id, 
-          question, 
-          answer,
-          box_id,
-          part_number
-        FROM 
-          cards 
-        WHERE 
-          box_id = $1 
-          AND part_number = (
-            SELECT total_parts 
-            FROM boxes 
-            WHERE id = $1
-          )
-      `;
+      SELECT 
+        id, 
+        question, 
+        answer,
+        box_id,
+        part_number,
+        user_id
+        review_date
+      FROM 
+        cards 
+      WHERE 
+        box_id = $1 
+        AND part_number = (
+          SELECT total_parts 
+          FROM boxes 
+          WHERE id = $1
+        )
+        AND (review_date != CURRENT_DATE) -- شرط برای عدم نمایش کارت‌های امروز
+    `;
       const cards = await query(cardsQuery, [box_id]);
   
       return NextResponse.json(

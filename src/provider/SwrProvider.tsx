@@ -14,9 +14,10 @@ export default function SwrProvider({ children }:SwrProviderProps) {
         <SWRConfig
           value={{
             fetcher,
+            fallback: {},
             revalidateOnFocus: false, 
             errorRetryCount: 3,
-            refreshWhenOffline:true
+            refreshWhenOffline:false
           }}
         >
           {children}
