@@ -12,7 +12,6 @@ interface CardComponentProps {
 
 const CardComponent: React.FC<CardComponentProps> = ({ card, boxId }) => {
   const [isFlipped, setIsFlipped] = useState(false);
-  console.log(`${card.id}`, card);
   const handleFlip = () => {
     setIsFlipped((prev) => !prev);
   };

@@ -1,9 +1,8 @@
 import axios, { AxiosError } from "axios";
-const API_BASE_URL = "https://leitner-box.vercel.app/api/"
-// const API_BASE_URL =
-//   process.env.NODE_ENV === "production"
-//     ? "https://leitner-box.vercel.app/api/"
-//     : "http://localhost:3000/api/";
+const API_BASE_URL =
+  process.env.NODE_ENV === "production"
+    ? "https://leitner-box.vercel.app/api/"
+    : "http://localhost:3000/api/";
 
 export const api = axios.create({
   baseURL: API_BASE_URL,
@@ -16,15 +15,6 @@ export const api = axios.create({
 });
 
 
-export const apiFile = axios.create({
-  baseURL: API_BASE_URL,
-  headers: {
-    "Content-Type": "multipart/form-data",
-    "Cache-Control": "no-cache",
-    Pragma: "no-cache",
-    Expires: "0",
-  },
-});
 
 const errorInterceptor = async (axiosError: AxiosError) => {
   return Promise.reject(axiosError);
@@ -32,4 +22,3 @@ const errorInterceptor = async (axiosError: AxiosError) => {
 
 api.interceptors.response.use((response) => response, errorInterceptor);
 
-apiFile.interceptors.response.use((response) => response, errorInterceptor);
