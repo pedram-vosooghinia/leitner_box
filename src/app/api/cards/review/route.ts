@@ -6,7 +6,6 @@ export async function GET(req: NextRequest) {
     try {
       const { searchParams } = new URL(req.url);
       const box_id = searchParams.get("box_id");
-  console.log("box_id",box_id)
       if (!box_id) {
         return NextResponse.json(
           { success: false, message: "Box ID is required." },
@@ -41,8 +40,7 @@ export async function GET(req: NextRequest) {
         { success: true, message: "Cards retrieved successfully.", data: cards.rows },
         { status: 200 }
       );
-    } catch (error) {
-      console.error("Error fetching cards:", error);
+    } catch  {
       return NextResponse.json(
         { success: false, message: "An error occurred." },
         { status: 500 }

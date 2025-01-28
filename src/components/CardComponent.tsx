@@ -23,7 +23,6 @@ const CardComponent: React.FC<CardComponentProps> = ({ card, boxId }) => {
       cardId: card.id,
       box_id: card.box_id,
     };
-    console.log("data", data);
     try {
       await updateCardsService(data);
       mutate(`/cards/review?box_id=${boxId}`);
