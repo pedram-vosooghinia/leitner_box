@@ -1,9 +1,3 @@
-export interface Box {
-  id: number;
-  name: string;
-  parts: number;
-  cardCount: number;
-}
 
 
 export interface CardType {
