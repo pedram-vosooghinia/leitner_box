@@ -22,19 +22,26 @@ export async function POST(req: NextRequest) {
 
     const box_id = 1;
     const part_number = 1;
-    const user_id = 1
-    const yesterday = new Date();
-    yesterday.setDate(yesterday.getDate() - 1);
-    const review_date = yesterday.toISOString().split("T")[0]; 
+    const user_id = 1;
+    const review_date = new Date();
+    const move_date = new Date();
     const sqlQuery = `
       INSERT INTO cards (
-        question, answer, box_id, part_number , user_id, review_date
+        question, answer, box_id, part_number , user_id, review_date ,move_date
       )
       VALUES (
-        $1, $2, $3, $4, $5 , $6
+        $1, $2, $3, $4, $5 , $6 , $7
       )
     `;
-    const values = [question, answer, box_id, part_number, user_id ,review_date];
+    const values = [
+      question,
+      answer,
+      box_id,
+      part_number,
+      user_id,
+      review_date,
+      move_date
+    ];
     await query(sqlQuery, values);
 
     return NextResponse.json(
@@ -44,7 +51,7 @@ export async function POST(req: NextRequest) {
       },
       { status: 200 }
     );
-  } catch  {
+  } catch {
     return NextResponse.json(
       {
         success: false,

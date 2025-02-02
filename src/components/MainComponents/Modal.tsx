@@ -12,7 +12,6 @@ interface ButtonConfig {
   color?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost" | null;
 }
 
-// Define the props for the Modal component
 interface ModalProps {
   children: ReactNode;
   buttonConfig: ButtonConfig;

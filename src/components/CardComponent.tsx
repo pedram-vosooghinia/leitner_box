@@ -25,6 +25,7 @@ const CardComponent: React.FC<CardComponentProps> = ({ card, boxId }) => {
     try {
       await updateCardsService(data);
       mutate(`/cards/review?box_id=${boxId}`);
+      mutate(`/boxes/get`);
       toast.success("کارت با موفقیت ثبت شد");
     } catch {
       toast.error("ارتباط با سرور قطع شد");

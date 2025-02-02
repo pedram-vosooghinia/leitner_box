@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
           FROM boxes 
           WHERE id = $1
         )
-        AND (review_date != CURRENT_DATE) -- شرط برای عدم نمایش کارت‌های امروز
+        AND (review_date != CURRENT_DATE) 
     `;
       const cards = await query(cardsQuery, [box_id]);
   

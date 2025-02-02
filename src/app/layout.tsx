@@ -12,7 +12,9 @@ export default function RootLayout({
       <body className={`rtl flex flex-col min-h-screen`}>
         <main className="w-full h-screen flex flex-col  ">
           <ToastProvider>
-            <SwrProvider>{children}</SwrProvider>
+            <SwrProvider>
+              <div >{children}</div>
+            </SwrProvider>
           </ToastProvider>
         </main>
       </body>

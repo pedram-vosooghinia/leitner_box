@@ -21,8 +21,6 @@ const AddCardForm = () => {
     try {
       setLoading(true);
       await addCardsService(data);
-      // mutate(`/hashtags/getAll?type=${selectedType}`);
-
       toast.success("کارت با موفقیت ثبت شد");
     } catch {
       toast.error("خطایی رخ داد");
