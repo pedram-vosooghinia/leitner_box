@@ -32,9 +32,8 @@ export default function Signin() {
     try {
       const res = await signInServices(values);
       if (res.status == 201) {
-        toast.success(
-          "ثبت نام با موفقیت انجام شد لطفا منتظر تایید ادمین باشید"
-        );
+        toast.success("ثبت نام با موفقیت انجام شد ");
+        router.push("/login");
       }
     } catch (error) {
       const err = error as AxiosError;
@@ -43,7 +42,7 @@ export default function Signin() {
         "خطایی رخ داده است";
       toast.error(message);
     } finally {
-      reset()
+      reset();
     }
   };
 
@@ -95,7 +94,7 @@ export default function Signin() {
             )}
 
             <div className="flex justify-between items-end gap-2 ">
-              <div className=" w-full ">
+              <div className=" w-full grid gap-2 ">
                 <Label htmlFor="password">رمز عبور</Label>
                 <Input
                   id="password"
