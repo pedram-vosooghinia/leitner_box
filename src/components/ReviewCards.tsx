@@ -5,19 +5,26 @@ import LoadingModal from "./MainComponents/LoadingModal";
 import { Card, CardContent, CardDescription } from "./ui/card";
 import { useBoxStore } from "@/store/boxStore";
 import CardComponent from "./CardComponent";
-import { CardType } from "../../type";
-
+import { CardType } from "@/types/card";
+import useUserStore from "@/store/userStore";
 const ReviewCards = () => {
   const { boxId } = useBoxStore();
-  const { data: cartData, error, isLoading } = useSWR(
-    boxId ? `/cards/review?box_id=${boxId}` : null
-  );
+  const { user } = useUserStore();
+  const {
+    data: cartData,
+    error,
+    isLoading,
+  } = useSWR(boxId ? `/cards/review?box_id=${boxId}&userId=${user?.id}` : null);
 
   if (!boxId)
-    return <p className="text-center">لطفاً یک جعبه انتخاب کنید</p>;
+    return (
+      <div className="text-center">
+        <p>لطفاً یک جعبه انتخاب کنید</p>
+      </div>
+    );
 
   if (isLoading) return <LoadingModal />;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (error) return <div className="text-red-500">{error}</div>;
 
   const cards = cartData?.data || [];
 
@@ -33,8 +40,7 @@ const ReviewCards = () => {
     return (
       <div className="flex justify-center items-center">
         <p className="text-center">
-          کارت‌های این جعبه به‌طور کامل مرور شده‌اند و شما می‌توانید آن‌ها را به
-          صورت اکسل ذخیره و حذف کنید.
+          کارت‌های این جعبه به‌طور کامل مرور شده‌اند
         </p>
       </div>
     );

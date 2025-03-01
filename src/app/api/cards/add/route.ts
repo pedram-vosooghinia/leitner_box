@@ -4,12 +4,13 @@ import { query } from "@/db";
 interface RequestBody {
   question: string;
   answer: string;
+  userId: number;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body: { data: RequestBody } = await req.json();
-    const { question, answer } = body.data;
+    const { question, answer, userId } = body.data;
     if (!question || !answer) {
       return NextResponse.json(
         {
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
 
     const box_id = 1;
     const part_number = 1;
-    const user_id = 1;
+    const user_id = userId;
     const review_date = new Date();
     const move_date = new Date();
     const sqlQuery = `

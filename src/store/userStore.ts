@@ -1,7 +1,7 @@
 "use strict";
 import { create } from "zustand";
 import Cookies from "js-cookie";
-import { User } from "../../type";
+import { User } from "@/types/user";
 
 interface IuseUserStore {
   user: User | null;
@@ -13,8 +13,11 @@ const useUserStore = create<IuseUserStore>((set) => ({
     ? JSON.parse(Cookies.get("user") as string)
     : null,
 
-  addToUser: (newUser:User) => {
-    Cookies.set("user", JSON.stringify(newUser), { sameSite: 'Strict', secure: true });
+  addToUser: (newUser: User) => {
+    Cookies.set("user", JSON.stringify(newUser), {
+      sameSite: "Strict",
+      secure: true,
+    });
     set({ user: newUser });
   },
 

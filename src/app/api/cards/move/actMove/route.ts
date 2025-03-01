@@ -3,12 +3,13 @@ import { query } from "@/db";
 
 interface RequestBody {
   box_id: number;
+  user_id: number;
 }
 
 export async function POST(req: NextRequest) {
   try {
     const body: { data: RequestBody } = await req.json();
-    const { box_id } = body.data;
+    const { box_id, user_id } = body.data;
 
     if (!box_id) {
       return NextResponse.json(
@@ -24,6 +25,7 @@ export async function POST(req: NextRequest) {
           move_date = CURRENT_DATE 
         WHERE 
           box_id = $1 
+          AND user_id = $2
           AND part_number < (
               SELECT total_parts 
               FROM boxes 
@@ -33,7 +35,7 @@ export async function POST(req: NextRequest) {
           AND (move_date != CURRENT_DATE)
     `;
 
-    await query(updateQuery, [box_id]);
+    await query(updateQuery, [box_id, user_id]);
 
     return NextResponse.json(
       { success: true, message: "Cards updated successfully." },

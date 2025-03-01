@@ -9,7 +9,7 @@ export async function POST(req: NextRequest) {
     const last_name = values.lastName;
     const mobile = values.mobile;
     const password = values.password;
-    const role = "marketer";
+    const role = "guest";
     if (!first_name || !last_name || !mobile || !password) {
       return NextResponse.json(
         {

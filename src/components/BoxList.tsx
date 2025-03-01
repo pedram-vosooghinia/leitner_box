@@ -1,23 +1,31 @@
+"use client";
 import React from "react";
 import { Card, CardContent } from "./ui/card";
 import useSWR from "swr";
 import LoadingModal from "./MainComponents/LoadingModal";
-import { Box } from "../../type";
+import { Box } from "@/types/box";
 import { useBoxStore } from "@/store/boxStore";
+import useUserStore from "@/store/userStore";
+import ClientOnly from "@/components/ClientOnly";
 
-const BoxList = () => {
+const BoxContent = () => {
   const { boxId, setBoxId } = useBoxStore();
-  const { data: boxData, error, isLoading } = useSWR(`/boxes/get`);
+  const { user } = useUserStore();
+
+  const {
+    data: boxData,
+    error,
+    isLoading,
+  } = useSWR(user?.id ? `/boxes/get?userId=${user.id}` : null);
   const boxes: Box[] = boxData?.data || [];
 
   if (isLoading) return <LoadingModal />;
-
   if (error) return <p className="text-red-500">خطا در دریافت اطلاعات</p>;
 
   return (
     <Card className="m-4">
       <CardContent>
-        <h1 className="text-2xl font-bold text-center my-4">Leitner Box</h1>
+        <div className="text-2xl font-bold text-center my-4">Leitner Box</div>
         <Card className="flex justify-between flex-wrap">
           {boxes.map((box: Box) => (
             <CardContent
@@ -35,6 +43,14 @@ const BoxList = () => {
         </Card>
       </CardContent>
     </Card>
+  );
+};
+
+const BoxList = () => {
+  return (
+    <ClientOnly>
+      <BoxContent />
+    </ClientOnly>
   );
 };
 

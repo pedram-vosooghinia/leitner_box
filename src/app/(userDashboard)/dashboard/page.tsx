@@ -6,7 +6,7 @@ import ReviewCards from "@/components/ReviewCards";
 import MoveCards from "@/components/MoveCards";
 const DashboardPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 pt-20">
       <AddCardForm />
       <BoxList />
       <MoveCards />

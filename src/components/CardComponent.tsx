@@ -3,14 +3,16 @@ import { Button } from "./ui/button";
 import toast from "react-hot-toast";
 
 import { updateCardsService } from "@/services/cards";
-import { CardType } from "../../type";
+import { CardType } from "@/types/card";
 import { mutate } from "swr";
+import useUserStore from "@/store/userStore";
 interface CardComponentProps {
   card: CardType;
   boxId: number;
 }
 
 const CardComponent: React.FC<CardComponentProps> = ({ card, boxId }) => {
+  const { user } = useUserStore();
   const [isFlipped, setIsFlipped] = useState(false);
   const handleFlip = () => {
     setIsFlipped((prev) => !prev);
@@ -24,8 +26,8 @@ const CardComponent: React.FC<CardComponentProps> = ({ card, boxId }) => {
     };
     try {
       await updateCardsService(data);
-      mutate(`/cards/review?box_id=${boxId}`);
-      mutate(`/boxes/get`);
+      mutate(`/cards/review?box_id=${boxId}&userId=${user?.id}`);
+      mutate(`/boxes/get?userId=${user?.id}`);
       toast.success("کارت با موفقیت ثبت شد");
     } catch {
       toast.error("ارتباط با سرور قطع شد");

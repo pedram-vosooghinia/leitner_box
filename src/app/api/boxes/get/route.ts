@@ -1,15 +1,17 @@
 export const dynamic = "force-dynamic";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { query } from "@/db";
-
-export async function GET() {
+export async function GET(req: NextRequest) {
+  const { searchParams } = new URL(req.url);
+  const userId = searchParams.get("userId");
+  console.log("userId", userId);
   try {
     const sqlQuery = `
       SELECT 
         b.id, 
         b.box_number, 
         b.total_parts, 
-        COUNT(c.id) AS card_count
+        COUNT(CASE WHEN c.user_id = $1 THEN c.id END) AS card_count
       FROM 
         boxes AS b
       LEFT JOIN 
@@ -22,7 +24,7 @@ export async function GET() {
         b.box_number ASC; 
     `;
 
-    const result = await query(sqlQuery, []);
+    const result = await query(sqlQuery, [userId]);
     if (!result?.rows?.length) {
       return NextResponse.json(
         {
@@ -41,7 +43,7 @@ export async function GET() {
       },
       { status: 200 }
     );
-  } catch  {
+  } catch {
     return NextResponse.json(
       {
         success: false,

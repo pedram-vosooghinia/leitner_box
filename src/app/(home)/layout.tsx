@@ -1,4 +1,6 @@
-import "./globals.css";
+"use client";
+
+import "../globals.css";
 import ToastProvider from "@/provider/ToastProvider";
 import SwrProvider from "@/provider/SwrProvider";
 
@@ -7,16 +9,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en">
-      <body className={`rtl flex flex-col min-h-screen`}>
-        <main className="w-full h-screen flex flex-col  ">
+    <html lang="fa" dir="rtl">
+      <body>
+        <div className="flex min-h-screen flex-col">
           <ToastProvider>
-            <SwrProvider>
-              <div >{children}</div>
-            </SwrProvider>
+            <SwrProvider>{children}</SwrProvider>
           </ToastProvider>
-        </main>
+        </div>
       </body>
     </html>
   );
