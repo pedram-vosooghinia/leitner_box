@@ -4,7 +4,6 @@ import { query } from "@/db";
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const userId = searchParams.get("userId");
-  console.log("userId", userId);
   try {
     const sqlQuery = `
       SELECT 

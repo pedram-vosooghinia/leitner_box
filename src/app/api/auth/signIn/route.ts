@@ -39,7 +39,6 @@ export async function POST(req: NextRequest) {
       "INSERT INTO users (first_name, last_name, mobile, password, role) VALUES ($1, $2, $3, $4, $5) RETURNING *",
       [first_name, last_name, mobile, hashedPassword, role]
     );
-    console.log("newUserResult",newUserResult)
     if (!newUserResult.rows.length) {
       return NextResponse.json(
         { success: false, message: "خطا در ثبت‌ نام، لطفا دوباره تلاش کنید" },

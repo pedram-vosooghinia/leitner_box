@@ -12,14 +12,17 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { mutate } from "swr";
+import { useBoxStore } from "@/store/boxStore";
 const AddCardForm = () => {
   const [loading, setLoading] = useState(false);
   const { closeModal } = useModalStore();
   const { user } = useUserStore();
-
+  const { boxId } = useBoxStore();
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<AddCardFormProps>({
     resolver: zodResolver(
@@ -29,16 +32,18 @@ const AddCardForm = () => {
       })
     ),
   });
-
   const onSubmit = async (data: AddCardFormProps) => {
     try {
       setLoading(true);
       await addCardsService({ ...data, userId: user?.id });
+      mutate(`/cards/review?box_id=${boxId}&userId=${user?.id}`);
+      mutate(`/boxes/get?userId=${user?.id}`);
       toast.success("کارت با موفقیت ثبت شد");
     } catch {
       toast.error("خطایی رخ داد");
     } finally {
       setLoading(false);
+      reset();
       closeModal();
     }
   };
